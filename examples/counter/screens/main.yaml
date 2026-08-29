@@ -151,29 +151,6 @@ layout:
           on:
             click: 'push state.todos {"title":"{{state.form.newTitle}}"}'
     - component: sl-card
-      key: bridge-card
-      children:
-        - component: div
-          key: bridge-header
-          props:
-            style: "font-weight:600;margin-bottom:12px;"
-          text: "JS Bridge (window.UIEngine)"
-        - component: sl-button
-          key: js-bridge-btn
-          label: "Вызвать JS (action.jsHello)"
-          props:
-            size: small
-            variant: primary
-          on:
-            click: "action.jsHello"
-        - component: span
-          key: bridge-status
-          if: state.ui.jsBridgeFired
-          animate: {type: scale, duration: 200}
-          text: "✓ JS Bridge сработал"
-          props:
-            style: "margin-left:8px;color:var(--sl-color-success-600);"
-    - component: sl-card
       key: richtext-card
       children:
         - component: div

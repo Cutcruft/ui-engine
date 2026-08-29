@@ -22,8 +22,6 @@ func Init(target string) error {
 
 	dirs := []string{
 		ls.ScreensDir,
-		filepath.Join(abs, "src", "js"),
-		filepath.Join(abs, "src", "go"),
 		filepath.Join(abs, "assets"),
 	}
 	for _, d := range dirs {
@@ -33,12 +31,11 @@ func Init(target string) error {
 	}
 
 	files := map[string]string{
-		"app.yaml":            appYAML,
-		"theme.yaml":          themeYAML,
-		"screens/main.yaml":   screenMainYAML,
-		"screens/about.yaml":  screenAboutYAML,
-		".gitignore":          gitignore,
-		"src/js/app.js":       bootstrapJS,
+		"app.yaml":           appYAML,
+		"theme.yaml":         themeYAML,
+		"screens/main.yaml":  screenMainYAML,
+		"screens/about.yaml": screenAboutYAML,
+		".gitignore":         gitignore,
 	}
 
 	for name, content := range files {
@@ -56,18 +53,13 @@ func Init(target string) error {
 	return nil
 }
 
-const appYAML = `# Корневой конфиг приложения.
+const appYAML = `# Корневой конфиг приложения — только YAML, без JS.
 name: my-app
 root: main            # стартовый экран
 entry: root           # id DOM-контейнера, куда монтируется ядро
 screensDir: screens
 theme: theme.yaml
 themeActive: light
-
-# Подключаемые модули (файловые).
-modules:
-  - name: shoelace
-    path: ./src/js/shoelace
 `
 
 const themeYAML = `# Темы: имя -> css-переменные (потребляются Shoelace и кастомными стилями).

@@ -15,9 +15,6 @@ state:
       ready:
         type: bool
         default: false
-      jsBridgeFired:
-        type: bool
-        default: false
   session:
     type: object
     fields:
