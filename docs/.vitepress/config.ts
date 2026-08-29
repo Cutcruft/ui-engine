@@ -2,8 +2,11 @@ export default {
   title: 'ui-engine',
   description: 'Go + WASM + YAML — декларативные интерфейсы',
   lang: 'ru-RU',
+  lastUpdated: true,
+  cleanUrls: true,
   themeConfig: {
     logo: '/logo.svg',
+    outline: { level: [2, 3], label: 'На странице' },
     nav: [
       { text: 'Гайд', link: '/guide/' },
       { text: 'API', link: '/api/cli' },
@@ -34,8 +37,15 @@ export default {
     ],
     footer: {
       message: 'MIT Licensed',
-      copyright: 'Copyright © 2024 ui-engine'
-    }
+      copyright: 'Copyright © 2026 by Oleg Haitsyn'
+    },
+    search: { provider: 'local' },
+    docFooter: { prev: 'Назад', next: 'Далее' },
+    returnToTopLabel: 'Наверх',
+    sidebarMenuLabel: 'Меню',
+    darkModeSwitchLabel: 'Тема',
+    lightModeSwitchTitle: 'Светлая',
+    darkModeSwitchTitle: 'Тёмная'
   },
   vite: {
     css: {
