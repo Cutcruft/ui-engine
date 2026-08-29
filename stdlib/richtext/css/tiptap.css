@@ -1,0 +1,17 @@
+/* notion-like tiptap */
+.ui-richtext { outline: none; }
+.ui-richtext p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--sl-color-neutral-400);
+  pointer-events: none;
+  height: 0;
+}
+.ui-richtext h1 { font-size: 1.8em; font-weight: 700; margin: 0.6em 0 0.3em; }
+.ui-richtext h2 { font-size: 1.4em; font-weight: 600; margin: 0.5em 0 0.2em; }
+.ui-richtext blockquote { border-left: 3px solid var(--sl-color-neutral-300); margin: 0.8em 0; padding-left: 1em; color: var(--sl-color-neutral-600); }
+.ui-richtext code { background: var(--sl-color-neutral-100); padding: 0.1em 0.3em; border-radius: 3px; font-family: monospace; }
+.ui-richtext pre { background: #1e1e1e; color: #d4d4d4; padding: 0.8em; border-radius: 6px; overflow: auto; }
+.ui-richtext ul[data-type="taskList"] { list-style: none; padding-left: 0; }
+.ui-richtext ul[data-type="taskList"] li { display: flex; gap: 0.5em; }
+.ui-richtext-toolbar sl-button { --sl-input-height-small: 28px; }

@@ -1,0 +1,3 @@
+# Веб-хуки: действия mini-DSL на события жизненного цикла.
+onReady:
+  - set state.ui.ready = true

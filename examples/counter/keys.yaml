@@ -1,0 +1,11 @@
+# Назначения сочетаний клавиш. Action — строка mini-DSL движка.
+bindings:
+  inc:
+    combo: ["+", "n"]
+    action: "inc state.counter.count"
+  reset:
+    combo: ["meta+r"]
+    action: "set state.counter.count = 0"
+  about:
+    combo: ["b"]
+    action: "navigate about"

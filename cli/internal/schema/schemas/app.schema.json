@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ui-engine/app.schema.json",
+  "title": "ui-engine app.yaml",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "root": { "type": "string", "default": "main" },
+    "entry": { "type": "string", "default": "root" },
+    "screensDir": { "type": "string" },
+    "theme": { "type": "string", "default": "theme.yaml" },
+    "themeActive": { "type": "string", "default": "light" },
+    "net": { "type": "string" },
+    "state": { "type": "string", "default": "state.yaml" },
+    "hooks": { "type": "string" },
+    "keys": { "type": "string" },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "path": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

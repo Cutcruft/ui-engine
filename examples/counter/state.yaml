@@ -1,0 +1,59 @@
+# Контракт состояния. Ключи — пути в store (без префикса state.).
+state:
+  counter:
+    type: object
+    fields:
+      count:
+        type: int
+        default: 0
+  ui:
+    type: object
+    fields:
+      theme:
+        type: string
+        default: light
+      ready:
+        type: bool
+        default: false
+      jsBridgeFired:
+        type: bool
+        default: false
+  session:
+    type: object
+    fields:
+      token:
+        type: string
+        secret: true
+  todos:
+    type: list
+    items:
+      type: object
+      fields:
+        id:
+          type: string
+          required: true
+        title:
+          type: string
+          required: true
+        done:
+          type: bool
+          default: false
+    default:
+      - id: "1"
+        title: "Изучить движок"
+        done: false
+      - id: "2"
+        title: "Собрать пример"
+        done: true
+  form:
+    type: object
+    fields:
+      newTitle:
+        type: string
+        default: ""
+  doc:
+    type: object
+    fields:
+      content:
+        type: string
+        default: "<p>Привет, это <strong>richtext</strong> notion-like</p>"

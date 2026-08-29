@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ui-engine/keys.schema.json",
+  "title": "ui-engine keys.yaml",
+  "type": "object",
+  "properties": {
+    "bindings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "combo": { "type": "array", "items": { "type": "string" } },
+          "action": { "type": "string" },
+          "when": { "type": "string" },
+          "args": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

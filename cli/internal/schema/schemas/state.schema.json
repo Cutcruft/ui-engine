@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ui-engine/state.schema.json",
+  "title": "ui-engine state.yaml",
+  "type": "object",
+  "required": ["state"],
+  "properties": {
+    "state": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/variable" }
+    }
+  },
+  "$defs": {
+    "variable": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["string", "int", "float", "bool", "object", "list"] },
+        "required": { "type": "boolean" },
+        "secret": { "type": "boolean" },
+        "default": {},
+        "items": { "$ref": "#/$defs/variable" },
+        "fields": { "type": "object", "additionalProperties": { "$ref": "#/$defs/variable" } }
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,16 @@
+# Кнопка — обёртка над sl-button с вариантами
+component: button
+props:
+  variant: primary  # primary | secondary | ghost | danger
+  size: md          # sm | md | lg
+  label: "Кнопка"
+  loading: false
+  disabled: false
+example: |
+  - component: button
+    props:
+      variant: primary
+      size: md
+    label: "Нажми"
+    on:
+      click: "inc state.counter.count"

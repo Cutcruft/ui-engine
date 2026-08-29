@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: '1.21' }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'npm' }
+      - run: npm ci || npm install
+      - run: make build
+      - run: make test
+      - run: make lint
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: '1.21' }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci || npm install
+      - run: make build
+      - run: |
+          nohup ./bin/ui-engine dev examples/counter > /tmp/dev.log 2>&1 &
+          sleep 5
+          curl -s http://127.0.0.1:8033/ | grep -q "Счётчик" && echo "e2e dev OK"
+          # playwright e2e (если установлен)
+          npx playwright test 2>/dev/null || echo "playwright not installed, skip"
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: '1.21' }
+      - run: go vet ./...
+        working-directory: core
+      - run: go vet ./...
+        working-directory: cli

@@ -1,0 +1,27 @@
+module:
+  name: layout
+  version: 1.0.0
+  type: layout
+  description: "Базовые лэйауты: row/column/grid/card/alert/toast с адаптивными отступами"
+  author: ui-engine
+  license: MIT
+  entry:
+    js: js/bridge.js
+  components:
+    - name: row
+      props:
+        gap: {type: string, default: "8px"}
+        align: {type: string, default: center, enum: [start, center, end, stretch]}
+    - name: column
+      props:
+        gap: {type: string, default: "8px"}
+    - name: grid
+      props:
+        cols: {type: string, default: "2"}
+        gap: {type: string, default: "8px"}
+    - name: card
+      props:
+        title: {type: string, default: ""}
+    - name: alert
+      props:
+        variant: {type: string, default: primary, enum: [primary, success, warning, danger]}

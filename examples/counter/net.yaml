@@ -1,0 +1,15 @@
+# Сокетный протокол: события клиента и сервера.
+url: ws://127.0.0.1:8044
+events:
+  client:
+    counter.inc:
+      request:
+        step:
+          type: int
+          default: 1
+  server:
+    counter.updated:
+      payload:
+        count:
+          type: int
+          required: true

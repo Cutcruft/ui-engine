@@ -1,0 +1,18 @@
+module:
+  name: richtext
+  version: 1.0.0
+  type: wrapper
+  description: "Notion-like редактор на Tiptap — headings, lists, todo, code, quote, link, image, table, toolbar, placeholder, лимит"
+  author: ui-engine
+  license: MIT
+  entry:
+    js: js/bridge.js
+    css: css/tiptap.css
+  components:
+    - name: richtext
+      props:
+        value: {type: string, default: ""}
+        placeholder: {type: string, default: "Начните писать..."}
+        readOnly: {type: boolean, default: false}
+        limit: {type: int, default: 0}
+        toolbar: {type: string, default: full, enum: [full, minimal, none]}

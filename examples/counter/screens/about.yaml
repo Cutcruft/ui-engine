@@ -1,0 +1,20 @@
+screen: about
+name: about
+animate: {type: slide, duration: 250, direction: right}
+layout:
+  component: div
+  key: root
+  props:
+    style: "padding:24px;display:flex;flex-direction:column;gap:16px;min-height:100vh;background:var(--app-bg);color:var(--app-text);font-family:var(--sl-font-sans);"
+  children:
+    - component: span
+      key: title
+      text: "О платформе ui-engine"
+    - component: span
+      key: desc
+      text: "Go + WASM + YAML. Декларативные интерфейсы без бэкенда в браузере."
+    - component: sl-button
+      key: back-btn
+      label: "Назад"
+      on:
+        click: "navigate main"

@@ -1,0 +1,10 @@
+entry: root
+hooks: hooks.yaml
+keys: keys.yaml
+name: counter
+net: net.yaml
+root: main
+screensDir: screens
+state: state.yaml
+theme: theme.yaml
+themeActive: light

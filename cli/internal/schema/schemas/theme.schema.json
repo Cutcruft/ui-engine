@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ui-engine/theme.schema.json",
+  "title": "ui-engine theme.yaml",
+  "type": "object",
+  "properties": {
+    "active": { "type": "string" },
+    "themes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": true
+}

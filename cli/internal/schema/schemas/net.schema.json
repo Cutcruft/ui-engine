@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ui-engine/net.schema.json",
+  "title": "ui-engine net.yaml",
+  "type": "object",
+  "required": ["url"],
+  "properties": {
+    "url": { "type": "string", "minLength": 1 },
+    "reconnect": {
+      "type": "object",
+      "properties": {
+        "strategy": { "enum": ["exponential", "fixed"] },
+        "base": { "type": "integer", "minimum": 0 },
+        "max": { "type": "integer", "minimum": 0 },
+        "attempts": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "auth": {
+      "type": "object",
+      "properties": {
+        "method": { "enum": ["handshake", "query", "header"] },
+        "tokenRef": { "type": "string" },
+        "header": { "type": "string" },
+        "queryKey": { "type": "string" }
+      }
+    },
+    "ping": {
+      "type": "object",
+      "properties": {
+        "interval": { "type": "integer", "minimum": 0 },
+        "timeout": { "type": "integer", "minimum": 0 },
+        "onTimeout": { "type": "string" }
+      }
+    },
+    "events": {
+      "type": "object",
+      "properties": {
+        "client": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/clientEvent" }
+        },
+        "server": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/serverEvent" }
+        }
+      }
+    },
+    "errors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer" },
+          "on": { "type": "object", "additionalProperties": { "type": "string" } }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "field": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["string", "int", "float", "bool", "object", "list"] },
+        "required": { "type": "boolean" },
+        "secret": { "type": "boolean" },
+        "default": {},
+        "items": { "$ref": "#/$defs/field" },
+        "fields": { "type": "object", "additionalProperties": { "$ref": "#/$defs/field" } }
+      }
+    },
+    "clientEvent": {
+      "type": "object",
+      "properties": {
+        "request": { "type": "object", "additionalProperties": { "$ref": "#/$defs/field" } },
+        "reply": { "type": "string" },
+        "emit": { "type": "string" },
+        "on": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "serverEvent": {
+      "type": "object",
+      "properties": {
+        "payload": { "type": "object", "additionalProperties": { "$ref": "#/$defs/field" } },
+        "on": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    }
+  },
+  "additionalProperties": true
+}

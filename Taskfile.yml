@@ -1,0 +1,64 @@
+version: '3'
+
+vars:
+  CLI: bin/ui-engine
+  DEMO: examples/counter
+  TMP: "{{.TMPDIR | default \"bin\"}}"
+
+tasks:
+  test:
+    desc: Прогон всех тестов (core + cli)
+    cmds:
+      - cd core && go vet ./... && go test ./...
+      - cd cli && go vet ./... && go test ./...
+
+  build-core:
+    desc: Собрать ядро (без было wasm)
+    cmds:
+      - cd core && go build ./...
+
+  wasm:
+    desc: Собрать wasm-ядро core/wasm
+    cmds:
+      - mkdir -p bin
+      - cd core/wasm && GOOS=js GOARCH=wasm go build -o ../../bin/core.wasm .
+
+  build-cli:
+    desc: Собрать CLI в bin/ui-engine
+    cmds:
+      - mkdir -p bin
+      - cd cli && go build -o ../bin/ui-engine .
+
+  gen:
+    desc: Перегенерировать типы примера (net/state модели)
+    deps: [build-cli]
+    cmds:
+      - ./{{.CLI}} gen {{.DEMO}}
+
+  lint:
+    desc: Проверить конфиги примера (JSON-Schema + структура)
+    deps: [build-cli]
+    cmds:
+      - ./{{.CLI}} lint {{.DEMO}}
+
+  demo-build:
+    desc: Собрать пример (wasm + статический бандл)
+    deps: [build-cli]
+    cmds:
+      - ./{{.CLI}} build {{.DEMO}}
+
+  demo-dev:
+    desc: Dev-сервер примера с hot-reload
+    deps: [build-cli]
+    cmds:
+      - ./{{.CLI}} dev {{.DEMO}}
+
+  demo-serve:
+    desc: Статический сервер собранного примера
+    deps: [demo-build]
+    cmds:
+      - ./{{.CLI}} serve {{.DEMO}}
+
+  all:
+    desc: Полная проверка (тесты + сборка + lint + gen)
+    deps: [test, build-core, wasm, build-cli, gen, lint, demo-build]

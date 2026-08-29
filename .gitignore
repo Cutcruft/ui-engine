@@ -1,0 +1,16 @@
+# ui-engine — компилируемые артефакты и мусор Go
+bin/
+build/
+dist/
+*.wasm
+*.js.map
+coverage/
+tmp/
+.DS_Store
+*.exe
+
+# Сгенерированный код (перегенерируется командой `ui-engine gen`)
+**/generated/
+
+# Логи
+*.log

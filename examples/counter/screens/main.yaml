@@ -1,0 +1,193 @@
+# Экран main. Дерево макета.
+screen: main
+name: main
+animate: {type: fade, duration: 300}
+layout:
+  component: div
+  key: root
+  props:
+    style: "display:flex;flex-direction:column;gap:24px;padding:24px;min-height:100vh;background:var(--app-bg);color:var(--app-text);font-family:var(--sl-font-sans);"
+  children:
+    - component: sl-card
+      key: hero
+      children:
+        - component: div
+          key: hero-body
+          style: "display:flex;flex-direction:column;gap:16px;"
+          children:
+            - component: span
+              key: counter-text
+              text: "Счётчик: {{state.counter.count}}"
+            - component: span
+              key: counter-active
+              if: state.counter.count
+              animate: {type: fade, duration: 200}
+              text: "✓ Счётчик активен"
+              props:
+                style: "color:var(--sl-color-success-600);font-size:14px;"
+            - component: sl-alert
+              key: counter-alert
+              if: state.counter.count
+              animate: {type: slide, duration: 200, direction: up}
+              props:
+                variant: primary
+                open: "true"
+              text: "Счётчик активен — alert"
+            - component: sl-button
+              key: inc-btn
+              label: "+1"
+              on:
+                click: "inc state.counter.count"
+            - component: sl-button
+              key: reset-btn
+              label: "Сброс"
+              on:
+                click: "set state.counter.count = 0"
+            - component: sl-button
+              key: about-btn
+              label: "О проекте"
+              on:
+                click: "navigate about"
+    - component: div
+      key: statusbar
+      props:
+        style: "font-size:14px;color:var(--sl-color-neutral-400);"
+      children:
+        - component: span
+          key: ready
+          text: "Состояние приложения: готово = {{state.ui.ready}}"
+        - component: span
+          key: ready-badge
+          if: state.ui.ready
+          animate: fade
+          text: "✓ Готово"
+          props:
+            style: "margin-left:8px;color:var(--sl-color-success-600);"
+    - component: sl-card
+      key: todos-card
+      children:
+        - component: div
+          key: todos-header
+          props:
+            style: "font-weight:600;margin-bottom:12px;"
+          text: "Задачи (repeat: state.todos)"
+        - component: div
+          key: todos-list
+          repeat: state.todos
+          animate: {type: fade, duration: 200}
+          props:
+            style: "display:flex;flex-direction:column;gap:8px;"
+          children:
+            - component: div
+              key: todo-item
+              animate: {type: slide, duration: 200, direction: up}
+              props:
+                style: "display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--sl-color-neutral-200);border-radius:6px;"
+              children:
+                - component: span
+                  key: todo-title
+                  text: "{{item.title}}"
+                - component: span
+                  key: todo-status
+                  text: "{{item.done}}"
+                  props:
+                    style: "font-size:12px;color:var(--sl-color-neutral-500);"
+        - component: div
+          key: todos-controls
+          props:
+            style: "display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"
+          children:
+            - component: sl-button
+              key: add-todo
+              label: "+ Задача"
+              props:
+                size: small
+              on:
+                click: 'push state.todos {"id":"3","title":"Новая задача","done":false}'
+            - component: sl-button
+              key: toggle-todo
+              label: "Переключить 1"
+              props:
+                size: small
+              on:
+                click: "toggle state.todos.0.done"
+            - component: sl-button
+              key: remove-todo
+              label: "Удалить 1"
+              props:
+                size: small
+                variant: danger
+              on:
+                click: "remove state.todos.0"
+    - component: sl-card
+      key: form-card
+      children:
+        - component: div
+          key: form-header
+          props:
+            style: "font-weight:600;margin-bottom:12px;"
+          text: "Форма (input → state)"
+        - component: sl-input
+          key: new-todo-input
+          bind: state.form.newTitle
+          animate: {type: fade, duration: 150}
+          props:
+            placeholder: "Введите задачу"
+            size: small
+          on:
+            sl-input: "set state.form.newTitle = $event"
+            input: "set state.form.newTitle = $event"
+        - component: span
+          key: form-preview
+          animate: fade
+          text: "Введено: {{state.form.newTitle}}"
+          props:
+            style: "font-size:14px;color:var(--sl-color-neutral-500);"
+        - component: sl-button
+          key: add-from-input
+          label: "Добавить из поля"
+          props:
+            size: small
+          on:
+            click: 'push state.todos {"title":"{{state.form.newTitle}}"}'
+    - component: sl-card
+      key: bridge-card
+      children:
+        - component: div
+          key: bridge-header
+          props:
+            style: "font-weight:600;margin-bottom:12px;"
+          text: "JS Bridge (window.UIEngine)"
+        - component: sl-button
+          key: js-bridge-btn
+          label: "Вызвать JS (action.jsHello)"
+          props:
+            size: small
+            variant: primary
+          on:
+            click: "action.jsHello"
+        - component: span
+          key: bridge-status
+          if: state.ui.jsBridgeFired
+          animate: {type: scale, duration: 200}
+          text: "✓ JS Bridge сработал"
+          props:
+            style: "margin-left:8px;color:var(--sl-color-success-600);"
+    - component: sl-card
+      key: richtext-card
+      children:
+        - component: div
+          key: richtext-header
+          props:
+            style: "font-weight:600;margin-bottom:12px;"
+          text: "Richtext (tiptap notion-like)"
+        - component: richtext
+          key: richtext-editor
+          bind: state.doc.content
+          animate: {type: fade, duration: 200}
+          props:
+            placeholder: "Начните писать notion-like..."
+            toolbar: full
+          on:
+            input: "set state.doc.content = $event"
+            change: "set state.doc.content = $event"

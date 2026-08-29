@@ -1,0 +1,17 @@
+module:
+  name: button
+  version: 1.0.0
+  type: component
+  description: "Кнопки с вариантами primary/secondary/ghost/danger и размерами sm/md/lg"
+  author: ui-engine
+  license: MIT
+  entry:
+    js: js/bridge.js
+  components:
+    - name: button
+      props:
+        variant: {type: string, default: primary, enum: [primary, secondary, ghost, danger]}
+        size: {type: string, default: md, enum: [sm, md, lg]}
+        loading: {type: boolean, default: false}
+        disabled: {type: boolean, default: false}
+        pill: {type: boolean, default: false}
