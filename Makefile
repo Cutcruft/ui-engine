@@ -5,7 +5,7 @@ BIN := bin/ui-engine
 WASM := bin/core.wasm
 TS_OUT := bin/ts
 
-.PHONY: all build test lint clean dev cover help install pull-build
+.PHONY: all build test lint clean dev dev-app docs docs-dev docs-preview cover help install pull-build
 
 all: build test lint ## полная проверка (build + test + lint)
 
@@ -27,8 +27,20 @@ lint: ## валидация YAML примера
 gen: ## генерация Go-типов из YAML
 	@$(BIN) gen examples/counter
 
-dev: ## dev-сервер примера
+dev: ## dev-сервер примера + доки (5173)
+	@trap 'kill 0' INT; $(BIN) dev examples/counter & npx vitepress dev docs --port 5173 & wait
+
+dev-app: ## только dev-сервер примера (8033)
 	@$(BIN) dev examples/counter
+
+docs: ## собрать доку
+	@npx vitepress build docs
+
+docs-dev: ## dev-сервер доки (5173)
+	@npx vitepress dev docs --port 5173
+
+docs-preview: ## превью собранной доки
+	@npx vitepress preview docs
 
 serve: ## статический сервер собранного примера
 	@$(BIN) serve examples/counter

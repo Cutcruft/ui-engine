@@ -63,21 +63,20 @@ tools/       — вспомогательные утилиты генераци�
 
 ## Команды CLI
 
-| Команда              | Описание |
-|----------------------|----------|
-| `init <dir>`         | создать новый проект |
-| `build [dir]`        | собрать wasm-ядро и статический бандл |
-| `dev [dir]`          | dev-сервер с hot-reload |
-| `lint [dir]`         | валидировать YAML-конфиги (JSON-Schema + структура) |
-| `gen [dir]`          | сгенерировать Go-типы из net.yaml/state.yaml в `generated/` |
-| `serve [dir]`        | статический сервер собранного SPA |
-| `version`            | показать версию |
+| Команда       | Описание                                                    |
+| ------------- | ----------------------------------------------------------- |
+| `init <dir>`  | создать новый проект                                        |
+| `build [dir]` | собрать wasm-ядро и статический бандл                       |
+| `dev [dir]`   | dev-сервер с hot-reload                                     |
+| `lint [dir]`  | валидировать YAML-конфиги (JSON-Schema + структура)         |
+| `gen [dir]`   | сгенерировать Go-типы из net.yaml/state.yaml в `generated/` |
+| `serve [dir]` | статический сервер собранного SPA                           |
+| `version`     | показать версию                                             |
 
 ## Документация
 
 - [VitePress (красиво)](https://ui-engine.dev) — `npm run docs:dev` → http://localhost:5173
 - [DESIGN.md](DESIGN.md) — полный дизайн движка.
-- [TODO.md](TODO.md) — план разработки и статусы фаз.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — как контрибьютить.
 
 ## Установка
