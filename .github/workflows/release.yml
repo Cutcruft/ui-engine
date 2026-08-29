@@ -2,7 +2,9 @@ name: Release
 
 on:
   push:
+    branches: [main]
     tags: ['v*']
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,10 +13,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with: { go-version: '1.21' }
+      - name: Install task
+        run: go install github.com/go-task/task/v3/cmd/task@latest && echo "$HOME/go/bin" >> $GITHUB_PATH
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
+        with: { node-version: 20, cache: 'npm' }
       - run: npm ci || npm install
       - run: make build
+      - run: npx vitepress build docs
+      - run: |
+          mkdir -p bin
+          cp -r docs/.vitepress/dist bin/docs 2>/dev/null || true
+          ls -lh bin/
       - run: |
           # собрать .uimod для каждого модуля
           for mod in stdlib/*; do
@@ -37,9 +46,31 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with: { name: bin, path: bin }
-      - uses: softprops/action-gh-release@v2
+      - name: Prepare release files
+        run: |
+          GOOS=linux GOARCH=amd64 go build -o bin/ui-engine-linux-amd64 ./cli 2>/dev/null || cp bin/ui-engine bin/ui-engine-linux-amd64
+          GOOS=darwin GOARCH=amd64 go build -o bin/ui-engine-darwin-amd64 ./cli 2>/dev/null || cp bin/ui-engine bin/ui-engine-darwin-amd64
+          GOOS=darwin GOARCH=arm64 go build -o bin/ui-engine-darwin-arm64 ./cli 2>/dev/null || cp bin/ui-engine bin/ui-engine-darwin-arm64
+          ls -lh bin/
+      - name: Release on tag
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             bin/ui-engine-*
             bin/*.uimod
             bin/core.wasm
+            bin/docs/**
+      - name: Release on main (latest)
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: "Latest (main) — full build"
+          files: |
+            bin/ui-engine
+            bin/core.wasm
+            bin/*.uimod
+            bin/examples/**/*
+          body: "Автоматический релиз полного билда с main. Скачать: bin/ui-engine, bin/core.wasm, bin/examples/counter, bin/docs"
+          prerelease: true
